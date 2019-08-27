@@ -16,8 +16,8 @@ namespace S3SupplyCollector
 
         private const string PREFIX = "s3://";
 
-        public S3SupplyCollector(string s2Prefix = null, int s2FolderLevels = 0, bool s2UseFileNameInDcName = false) : base(s2Prefix, s2FolderLevels, s2UseFileNameInDcName)
-        {
+        public S3SupplyCollector(string s2Prefix = null, int s2FolderLevels = 0, bool s2UseFileNameInDcName = false, bool csvHasHeader = true) : base(s2Prefix, s2FolderLevels, s2UseFileNameInDcName) {
+            this.csvHasHeader = csvHasHeader;
         }
 
         public override List<string> DataStoreTypes() {
@@ -37,6 +37,10 @@ namespace S3SupplyCollector
             if (s2UseFileNameInDcName)
             {
                 attrs.Append(",s2-use-file-name-in-dc-name=True;");
+            }
+
+            if (!csvHasHeader) {
+                attrs.Append(",csv_has_header=False;");
             }
             return $"{PREFIX}{accessKey}:{secretKey}@{region}/{bucket}{attrs}";
         }
