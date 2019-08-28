@@ -18,5 +18,5 @@ echo } >> S3SupplyCollectorTests/Properties/launchSettings.json
 
 dotnet build
 dotnet test
-rem docker stop minio1
-rem docker rm minio1
+docker stop minio1
+docker rm minio1
