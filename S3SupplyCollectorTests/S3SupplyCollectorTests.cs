@@ -18,10 +18,10 @@ namespace S3SupplyCollectorTests
             {
                 ConnectionString = _instance.BuildConnectionString(
                     Environment.GetEnvironmentVariable("S3_ACCESS_KEY"),
-                    Environment.GetEnvironmentVariable("S3_SECREY_KEY"),
+                    Environment.GetEnvironmentVariable("S3_SECRET_KEY"),
                     Environment.GetEnvironmentVariable("S3_REGION"),
                     Environment.GetEnvironmentVariable("S3_CONTAINER")
-                    )
+                    ) + ",override_host=" + Environment.GetEnvironmentVariable("S3_HOST")
             };
         }
 
@@ -44,7 +44,7 @@ namespace S3SupplyCollectorTests
         {
             var (tables, elements) = _instance.GetSchema(_container);
 
-            Assert.Equal(1, tables.Count);
+            Assert.Equal(2, tables.Count);
             
             Assert.NotNull(elements.Find(x => x.Name.Equals("FROM_NAME")));
         }
@@ -54,7 +54,7 @@ namespace S3SupplyCollectorTests
         {
             var entity = new DataEntity("FROM_ADDR", DataType.String, "String", _container, new DataCollection(_container, "EMAILS-UTF8.CSV") );
             var samples = _instance.CollectSample(entity, 5);
-            Assert.Equal(5, samples.Count);
+            Assert.InRange(samples.Count, 3, 7);
             Assert.Contains("sally@example.com", samples);
         }
 

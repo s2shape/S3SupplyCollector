@@ -13,6 +13,7 @@ namespace S3SupplyCollector
 {
     public class S3SupplyCollector : DriveSupplyCollectorBase.DriveSupplyCollectorBase {
         private string _bucketName;
+        private string _overrideHost = null;
 
         private const string PREFIX = "s3://";
 
@@ -45,6 +46,26 @@ namespace S3SupplyCollector
             return $"{PREFIX}{accessKey}:{secretKey}@{region}/{bucket}{attrs}";
         }
 
+        protected override void ParseConnectionStringAdditions(string additions) {
+            base.ParseConnectionStringAdditions(additions);
+
+            var parts = additions.Split(",");
+            foreach (var part in parts)
+            {
+                if (String.IsNullOrEmpty(part))
+                    continue;
+
+                var pair = part.Split("=");
+                if (pair.Length == 2)
+                {
+                    if ("override_host".Equals(pair[0]))
+                    {
+                        _overrideHost = pair[1];
+                    }
+                }
+            }
+        }
+
         private AmazonS3Client Connect(string connectString) {
             if(!connectString.StartsWith(PREFIX))
                 throw new ArgumentException("Invalid connection string!");
@@ -73,6 +94,13 @@ namespace S3SupplyCollector
                 _bucketName = connectString.Substring(bucketIndex + 1);
             }
 
+            if (_overrideHost != null) {
+                var config = new AmazonS3Config();
+                config.ServiceURL = _overrideHost;
+                config.ForcePathStyle = true;
+                return new AmazonS3Client(accessKey, secretKey, config);
+            }
+
             return new AmazonS3Client(accessKey, secretKey, RegionEndpoint.GetBySystemName(region));
         }
 
@@ -91,7 +119,11 @@ namespace S3SupplyCollector
             var s3Client = Connect(container.ConnectionString);
             var response = s3Client.GetObjectAsync(_bucketName, filePath).Result;
 
-            return response.ResponseStream;
+            var ms = new MemoryStream();
+            response.ResponseStream.CopyTo(ms);
+            ms.Position = 0;
+
+            return ms;
         }
 
         protected override List<DriveFileInfo> ListDriveFiles(DataContainer container) {
@@ -101,6 +133,7 @@ namespace S3SupplyCollector
 
             var request = new ListObjectsRequest();
             request.BucketName = _bucketName;
+            request.Prefix = s2Prefix;
             ListObjectsResponse response = s3Client.ListObjectsAsync(request).Result;
             foreach (S3Object o in response.S3Objects)
             {
