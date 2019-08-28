@@ -7,9 +7,9 @@ echo     \"S3SupplyCollectorTests\": { >> S3SupplyCollectorTests/Properties/laun
 echo       \"commandName\": \"Project\", >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo       \"environmentVariables\": { >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo         \"S3_ACCESS_KEY\": \"user\", >> S3SupplyCollectorTests/Properties/launchSettings.json
-echo         \"S3_SECRET_KEY\": \"pass\", >> S3SupplyCollectorTests/Properties/launchSettings.json
+echo         \"S3_SECRET_KEY\": \"password\", >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo         \"S3_REGION\": \"us-east-1\", >> S3SupplyCollectorTests/Properties/launchSettings.json
-echo         \"S3_CONTAINER\": \"bucket\" >> S3SupplyCollectorTests/Properties/launchSettings.json
+echo         \"S3_CONTAINER\": \"bucket\", >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo         \"S3_HOST\": \"http://localhost:9000\" >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo       } >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo     } >> S3SupplyCollectorTests/Properties/launchSettings.json
