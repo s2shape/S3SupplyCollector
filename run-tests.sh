@@ -1,6 +1,7 @@
 #!/bin/bash
 docker run -d -p 9000:9000 --name minio1 -e "MINIO_ACCESS_KEY=user" -e "MINIO_SECRET_KEY=password" --mount source=$(pwd)/S3SupplyCollectorTests/tests,target=/data,type=bind minio/minio server /data 
 
+mkdir S3SupplyCollectorTests/Properties
 echo { > S3SupplyCollectorTests/Properties/launchSettings.json
 echo   \"profiles\": { >> S3SupplyCollectorTests/Properties/launchSettings.json
 echo     \"S3SupplyCollectorTests\": { >> S3SupplyCollectorTests/Properties/launchSettings.json
