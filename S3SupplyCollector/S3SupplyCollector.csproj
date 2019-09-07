@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DriveSupplyCollectorBase\DriveSupplyCollectorBase\DriveSupplyCollectorBase.csproj" />
+    <ProjectReference Include="..\DriveSupplyCollectorBase\DriveSupplyCollectorBase\DriveSupplyCollectorBase.csproj" />
   </ItemGroup>
 
 </Project>

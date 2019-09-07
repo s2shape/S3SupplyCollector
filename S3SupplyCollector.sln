@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3SupplyCollector", "S3SupplyCollector\S3SupplyCollector.csproj", "{31168F43-FDA4-4FC4-80C5-477AC7C93FFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriveSupplyCollectorBase", "..\DriveSupplyCollectorBase\DriveSupplyCollectorBase\DriveSupplyCollectorBase.csproj", "{D1B96623-964B-4190-8F3A-DB89FB9B1745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriveSupplyCollectorBase", "DriveSupplyCollectorBase\DriveSupplyCollectorBase\DriveSupplyCollectorBase.csproj", "{D1B96623-964B-4190-8F3A-DB89FB9B1745}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3SupplyCollectorTests", "S3SupplyCollectorTests\S3SupplyCollectorTests.csproj", "{224D92E7-9B14-4362-8C70-A20748278B86}"
 EndProject
