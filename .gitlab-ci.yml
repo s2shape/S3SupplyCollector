@@ -33,5 +33,7 @@ test:
 
   script:
     - dotnet build
-    - cd DriveSupplyCollectorBase && dotnet test
+    - cd DriveSupplyCollectorBase
+    - dotnet test
+    - cd ..
     - dotnet test
