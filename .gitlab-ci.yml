@@ -5,7 +5,6 @@ stages:
   - test
 
 variables:
-  GIT_SUBMODULE_STRATEGY: recursive
   MINIO_ACCESS_KEY: user
   MINIO_SECRET_KEY: password
   S3_ACCESS_KEY: user
@@ -15,9 +14,7 @@ variables:
   S3_HOST: http://minio:9000
 
 before_script:
-  - git submodule sync --recursive
-  - git submodule update --init --recursive
-  - dotnet restore
+  - dotnet restore -s https://www.myget.org/F/s2/ -s https://api.nuget.org/v3/index.json
 
 build:
   stage: build
@@ -33,7 +30,4 @@ test:
 
   script:
     - dotnet build
-    - cd DriveSupplyCollectorBase
-    - dotnet test
-    - cd ..
     - dotnet test
