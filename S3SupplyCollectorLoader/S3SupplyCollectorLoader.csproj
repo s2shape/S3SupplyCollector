@@ -2,14 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.104.16" />
+    <PackageReference Include="SupplyCollectorDataLoader" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Properties\launchSettings.json">
+    <None Update="tests\emails\2019\07\emails-utf8.parquet">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="test_harness.config">
+    <None Update="tests\emails\2019\08\EMAILS-UTF8.CSV">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

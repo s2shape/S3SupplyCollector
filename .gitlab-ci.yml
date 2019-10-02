@@ -1,4 +1,4 @@
-image: microsoft/dotnet:latest
+image: itsplus/s2shape-test-harness
 
 stages:
   - build
@@ -24,10 +24,37 @@ build:
 test:
   stage: test
   services:
-    - name: itsplus/s2shape-s3-test
+    - name: minio/minio
       alias: minio
-      command: [server, "/data"]
+      command: [ server, /data ]
 
   script:
+    - ROOT_PROJECT_PATH=$(pwd)
     - dotnet build
+    - dotnet publish
+    - cd $ROOT_PROJECT_PATH/S3SupplyCollectorLoader/bin/Debug/netcoreapp2.2/publish
+    - cp -f /SupplyCollectorDataLoader/SupplyCollectorDataLoader/bin/Debug/netcoreapp2.2/SupplyCollectorDataLoader.runtimeconfig.json .
+    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - cd $ROOT_PROJECT_PATH
     - dotnet test
+
+load_test:
+  stage: test
+  services:
+    - name: minio/minio
+      alias: minio
+      command: [ server, /data ]
+
+  script:
+    - ROOT_PROJECT_PATH=$(pwd)
+    - dotnet build
+    - dotnet publish
+    - cd $ROOT_PROJECT_PATH/AzureBlobSupplyCollectorLoader/bin/Debug/netcoreapp2.2/publish
+    - cp -f /SupplyCollectorDataLoader/SupplyCollectorDataLoader/bin/Debug/netcoreapp2.2/SupplyCollectorDataLoader.runtimeconfig.json .
+    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -samples S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST TestCollection Test1:int,Test2:string,Test3:bool,Test4:double,Test5 1000000
+    - cd $ROOT_PROJECT_PATH/AzureBlobSupplyCollectorTests/bin/Debug/netcoreapp2.2/publish
+    - SupplyCollectorTestHarness
+

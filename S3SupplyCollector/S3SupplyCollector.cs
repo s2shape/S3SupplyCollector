@@ -17,7 +17,10 @@ namespace S3SupplyCollector
 
         private const string PREFIX = "s3://";
 
-        public S3SupplyCollector(string s2Prefix = null, int s2FolderLevels = 0, bool s2UseFileNameInDcName = false, bool csvHasHeader = true) : base(s2Prefix, s2FolderLevels, s2UseFileNameInDcName) {
+        public S3SupplyCollector() : base(null, 0, false) {
+        }
+
+        public S3SupplyCollector(string s2Prefix, int s2FolderLevels = 0, bool s2UseFileNameInDcName = false, bool csvHasHeader = true) : base(s2Prefix, s2FolderLevels, s2UseFileNameInDcName) {
             this.csvHasHeader = csvHasHeader;
         }
 
