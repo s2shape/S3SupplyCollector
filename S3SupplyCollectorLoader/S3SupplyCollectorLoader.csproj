@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.3.104.16" />
-    <PackageReference Include="SupplyCollectorDataLoader" Version="1.0.7" />
+    <PackageReference Include="SupplyCollectorDataLoader" Version="1.0.8" />
   </ItemGroup>
 
   <ItemGroup>

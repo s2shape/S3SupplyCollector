@@ -1,4 +1,4 @@
-image: itsplus/s2shape-test-harness
+image: docker.pkg.github.com/s2shape/docker-images/s2shape-test-harness:latest
 
 stages:
   - build
@@ -34,8 +34,8 @@ test:
     - dotnet publish
     - cd $ROOT_PROJECT_PATH/S3SupplyCollectorLoader/bin/Debug/netcoreapp2.2/publish
     - cp -f /SupplyCollectorDataLoader/SupplyCollectorDataLoader/bin/Debug/netcoreapp2.2/SupplyCollectorDataLoader.runtimeconfig.json .
-    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
-    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCESS_KEY:$S3_SECRET_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCESS_KEY:$S3_SECRET_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
     - cd $ROOT_PROJECT_PATH
     - dotnet test
 
@@ -50,11 +50,11 @@ load_test:
     - ROOT_PROJECT_PATH=$(pwd)
     - dotnet build
     - dotnet publish
-    - cd $ROOT_PROJECT_PATH/AzureBlobSupplyCollectorLoader/bin/Debug/netcoreapp2.2/publish
+    - cd $ROOT_PROJECT_PATH/S3SupplyCollectorLoader/bin/Debug/netcoreapp2.2/publish
     - cp -f /SupplyCollectorDataLoader/SupplyCollectorDataLoader/bin/Debug/netcoreapp2.2/SupplyCollectorDataLoader.runtimeconfig.json .
-    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
-    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
-    - dotnet SupplyCollectorDataLoader.dll -samples S3SupplyCollector s3://$S3_ACCOUNT_NAME:$S3_ACCOUNT_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST TestCollection Test1:int,Test2:string,Test3:bool,Test4:double,Test5 1000000
-    - cd $ROOT_PROJECT_PATH/AzureBlobSupplyCollectorTests/bin/Debug/netcoreapp2.2/publish
+    - dotnet SupplyCollectorDataLoader.dll -init S3SupplyCollector s3://$S3_ACCESS_KEY:$S3_SECRET_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -xunit S3SupplyCollector s3://$S3_ACCESS_KEY:$S3_SECRET_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST
+    - dotnet SupplyCollectorDataLoader.dll -samples S3SupplyCollector s3://$S3_ACCESS_KEY:$S3_SECRET_KEY@$S3_REGION/$S3_CONTAINER,override_host=$S3_HOST TestCollection Test1:int,Test2:string,Test3:bool,Test4:double,Test5 1000000
+    - cd $ROOT_PROJECT_PATH/S3SupplyCollectorTests/bin/Debug/netcoreapp2.2/publish
     - SupplyCollectorTestHarness
 

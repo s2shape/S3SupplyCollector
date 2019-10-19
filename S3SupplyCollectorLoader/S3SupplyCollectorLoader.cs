@@ -110,13 +110,12 @@ namespace S3SupplyCollectorLoader
                 var bucket = bucketList.Buckets.FirstOrDefault(x => x.BucketName.Equals(_bucketName));
                 Console.WriteLine($"... existing bucket = {bucket}");
                 if (bucket == null)
-                    client.PutBucketAsync(_bucketName);
+                    client.PutBucketAsync(_bucketName).Wait();
             }
             catch (Exception ex) {
                 Console.WriteLine($"{ex}");
                 throw ex;
             }
-
         }
 
         public override void LoadSamples(DataEntity[] dataEntities, long count) {
@@ -188,10 +187,10 @@ namespace S3SupplyCollectorLoader
             }
 
             client.PutObjectAsync(new PutObjectRequest() {
-                FilePath = remotePath,
-                Key = path,
+                FilePath = path,
+                Key = remotePath,
                 BucketName = _bucketName
-            });
+            }).Wait();
 
             File.Delete(path);
         }
@@ -228,11 +227,12 @@ namespace S3SupplyCollectorLoader
             var client = Connect(dataContainer.ConnectionString);
             var files = ListTestFiles("tests");
             foreach (var file in files) {
+                Console.WriteLine($"... uploading tests/{file} to {file}");
                 client.PutObjectAsync(new PutObjectRequest() {
                     FilePath = $"tests/{file}",
                     Key = file,
                     BucketName = _bucketName
-                });
+                }).Wait();
             }
         }
     }
