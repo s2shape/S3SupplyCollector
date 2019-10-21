@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -178,12 +179,11 @@ namespace S3SupplyCollectorLoader
 
             string remotePath;
             if (_s2UseFileNameInDcName) {
-                remotePath = _s2Prefix ?? "" + "/" + dataEntities[0].Collection.Name + "/" +
+                remotePath = dataEntities[0].Collection.Name + "/" +
                              dataEntities[0].Collection.Name + ".csv";
             }
             else {
-                remotePath = _s2Prefix ??
-                             "" + "/" + dataEntities[0].Collection.Name + "/" + Guid.NewGuid() + ".csv";
+                remotePath = dataEntities[0].Collection.Name + "/" + Guid.NewGuid() + ".csv";
             }
 
             client.PutObjectAsync(new PutObjectRequest() {
@@ -191,6 +191,8 @@ namespace S3SupplyCollectorLoader
                 Key = remotePath,
                 BucketName = _bucketName
             }).Wait();
+
+            Thread.Sleep(10000);
 
             File.Delete(path);
         }
